@@ -47,37 +47,37 @@ public class FMU_Simulation : MonoBehaviour {
 };
 */
 
-    [DllImport("FMUsimulatorLib.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("FMUSimulator.dll", CallingConvention = CallingConvention.Cdecl)]
     static extern int getIntPlusTen(int value);
 
-    [DllImport("FMUsimulatorLib.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("FMUSimulator.dll", CallingConvention = CallingConvention.Cdecl)]
     static extern IntPtr createFMUsimulator(string fmuPath, string workDir);
 
-    [DllImport("FMUsimulatorLib.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("FMUSimulator.dll", CallingConvention = CallingConvention.Cdecl)]
     static extern int setEulerStepSize(IntPtr simulator, float h);
 
-    [DllImport("FMUsimulatorLib.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("FMUSimulator.dll", CallingConvention = CallingConvention.Cdecl)]
     static extern int getFMUVersion(IntPtr simulator);
 
-    [DllImport("FMUsimulatorLib.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("FMUSimulator.dll", CallingConvention = CallingConvention.Cdecl)]
     static extern int simulateToTime(IntPtr simulator, float nextTime);
 
-    [DllImport("FMUsimulatorLib.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("FMUSimulator.dll", CallingConvention = CallingConvention.Cdecl)]
     static extern int initSimulation(IntPtr simulator);
 
-    [DllImport("FMUsimulatorLib.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("FMUSimulator.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
     static extern int getVarRefForVarName(IntPtr simulator, [MarshalAs(UnmanagedType.LPStr)]string name);
 
-    [DllImport("FMUsimulatorLib.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("FMUSimulator.dll", CallingConvention = CallingConvention.Cdecl)]
     static extern float getRealValueForVarRef(IntPtr simulator, int varRef);
 
-    [DllImport("FMUsimulatorLib.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("FMUSimulator.dll", CallingConvention = CallingConvention.Cdecl)]
     static extern int getRealValuesForVarRefLst(IntPtr simulator, IntPtr varRef, int numVars, IntPtr val);
 
-    [DllImport("FMUsimulatorLib.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("FMUSimulator.dll", CallingConvention = CallingConvention.Cdecl)]
     static extern int destroySimulator(IntPtr simulator);
 
-    [DllImport("FMUsimulatorLib.dll", CallingConvention = CallingConvention.Cdecl)]
+    [DllImport("FMUSimulator.dll", CallingConvention = CallingConvention.Cdecl)]
     static extern int getSomeVRbyString(string name);
 
     public void GetInitialVariables()
