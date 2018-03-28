@@ -82,10 +82,7 @@ public class FMU_Simulation : MonoBehaviour {
 
     public void GetInitialVariables()
     {
-        Debug.Log("HALLLO0!\n");
-
         simulator = createFMUsimulator(fmuPath, System.IO.Directory.GetCurrentDirectory().ToString());
-        Debug.Log("HALLLO!\n");
         RealInputNames.Add("Input_1");
         RealInputs.Add(1.3f);
         destroySimulator(simulator);
@@ -100,12 +97,10 @@ public class FMU_Simulation : MonoBehaviour {
     void Start()
     {
         Debug.Log("DIR " + System.IO.Directory.GetCurrentDirectory().ToString());
-        //Debug.Log("GOT " + getIntPlusTen(8).ToString());
+        Debug.Log("fmuPath " + fmuPath);
 
         simulator = createFMUsimulator(fmuPath, System.IO.Directory.GetCurrentDirectory().ToString());
         setEulerStepSize(simulator, 0.001f);
-        //int version = getFMUVersion(simulator);
-        //Debug.Log("GOT VERSION " + version.ToString());
         initSimulation(simulator);
         Debug.Log("initialized");
 
@@ -114,7 +109,7 @@ public class FMU_Simulation : MonoBehaviour {
         int vr = 0;
         for (int i = 0; i < attrIDs.Count;i++)
         {
-            Debug.Log("set var reference " + i.ToString());
+            //Debug.Log("set var reference " + i.ToString());
             vr = getVarRefForVarName(simulator, varNames[i]);
             if (vr < 0)
             {
@@ -122,24 +117,18 @@ public class FMU_Simulation : MonoBehaviour {
                 vr = 0;
             }
             fmuVarRefs.Add(vr);
-            Debug.Log("for var " + varNames[i]);
-            Debug.Log("got var reference " + fmuVarRefs[i].ToString());
+            //Debug.Log("for var " + varNames[i]);
+            //Debug.Log("got var reference " + fmuVarRefs[i].ToString());
         }
 
         allFMUShapes = goIDs.Distinct().ToList<string>();
     }
 
-    void Update()
-    {
-    }
-
     void FixedUpdate()
     {
-        
-        Debug.Log("Time " + (Time.time/speedUP));
+        //Debug.Log("Time " + (Time.time/speedUP));
         simulateToTime(simulator, (Time.time/speedUP));
         //simulateToTime(simulator, 0);
-        //Debug.Log("simulated");
         float val;
         for (int i = 0; i < fmuVarRefs.Count; i++)
         {

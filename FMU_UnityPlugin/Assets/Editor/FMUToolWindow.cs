@@ -5,40 +5,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
-/*
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
 
-[InitializeOnLoad]
-public class ScriptOrderManager
-{
-
-    static ScriptOrderManager()
-    {
-        foreach (MonoScript monoScript in MonoImporter.GetAllRuntimeMonoScripts())
-        {
-            if (monoScript.GetClass() != null)
-            {
-                foreach (var a in Attribute.GetCustomAttributes(monoScript.GetClass(), typeof(ScriptOrder)))
-                {
-                    var currentOrder = MonoImporter.GetExecutionOrder(monoScript);
-                    var newOrder = ((ScriptOrder)a).order;
-                    if (currentOrder != newOrder)
-                        MonoImporter.SetExecutionOrder(monoScript, newOrder);
-                }
-            }
-        }
-    }
-}
-
-*/
-
-
-
-public class FMUToolWindow : EditorWindow
-{
+public class FMUToolWindow : EditorWindow {
 
     string fullpath = "";
     string pathName = "";
@@ -58,11 +26,11 @@ public class FMUToolWindow : EditorWindow
     {
         if (type.Length > 12)
         {
-            Debug.Log("STRIPED NAME " + type.Substring(0, 11));
+            //Debug.Log("STRIPED NAME " + type.Substring(0, 11));
             if (type.Substring(0, 11) == "modelica://")
             {
-                Debug.Log("Typpe NAME " + type + " size " + type.Length);
-                return type.Substring(11, (type.Length - 11));
+              //Debug.Log("Type NAME " + type +" size "+type.Length);
+              return type.Substring(11, (type.Length-11));
             }
             else
                 return type;
@@ -84,7 +52,7 @@ public class FMUToolWindow : EditorWindow
             //Debug.Log("constant exp "+attr.ToString()+" VAL: "+val.ToString());
             fmuShape.setVarAttribute(attr, val);
         }
-        else if (nodeIn.Name == "cref")
+        else if(nodeIn.Name == "cref")
         {
             fmuSim.goIDs.Add(shapeName);
             fmuSim.attrIDs.Add(attr);
@@ -206,7 +174,7 @@ public class FMUToolWindow : EditorWindow
         {
             xmlFileName = xmlFileName + strLst[i] + ".";
         }
-        xmlFileName = pathName + xmlFileName.TrimEnd(new char[] { '.' }) + "_visual.xml";
+        xmlFileName = pathName + xmlFileName.TrimEnd(new char[] {'.'}) + "_visual.xml";
         Debug.Log("THE xmlFileName " + xmlFileName);
 
         //parse the xml
@@ -218,12 +186,12 @@ public class FMUToolWindow : EditorWindow
     GameObject createFileShapeAsset(string fullFileName, string identifier)
     {
         string[] pathLst = fullFileName.Split(new string[] { "/" }, StringSplitOptions.None);
-        string fileName = pathLst[pathLst.Length - 1];
+        string fileName = pathLst[pathLst.Length-1];
         pathLst = fileName.Split(new string[] { "." }, StringSplitOptions.None);
         string fileNameNoEnding = pathLst[0];
-        Debug.Log("TYPE FILENAME " + fileName + " fileNameNoEnding " + fileNameNoEnding);
+        Debug.Log("TYPE FILENAME "+fileName + " fileNameNoEnding "+ fileNameNoEnding);
 
-        string destPath = "Assets/Resources/" + fileName;
+        string destPath = "Assets/Resources/"+fileName;
         if (!System.IO.Directory.Exists("Assets/Resources"))// dir doesn't exists
         {
             System.IO.Directory.CreateDirectory("Assets/Resources");
@@ -242,12 +210,12 @@ public class FMUToolWindow : EditorWindow
         UnityEngine.Object prefab = Resources.Load(fileNameNoEnding);
         if (GameObject.Find(identifier) != null) //it does exist
         {
-            Debug.Log("There is already a GameObject named " + fileNameNoEnding);
+            Debug.Log("There is already a GameObject named "+fileNameNoEnding);
             DestroyImmediate(GameObject.Find(identifier));
         }
         GameObject go = (GameObject)Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
         go.name = identifier;
-        FMUshapeBehaviour script = go.AddComponent<FMUshapeBehaviour>();
+        FMUshapeBehaviour script =  go.AddComponent<FMUshapeBehaviour>();
         script.meshID = makeFirstCharUpperCase(fileNameNoEnding);
         //go.transform.rotation = Quaternion.AngleAxis(180,new Vector3(0,1,0));
         return go;
@@ -264,21 +232,19 @@ public class FMUToolWindow : EditorWindow
     // GUI events to implement FMUToolWindow
     void OnGUI()
     {
-        string delimiterString = "/";
-
-        if (GUILayout.Button("Select FMU"))
+        if(GUILayout.Button("Select FMU"))
         {
+            string delimiterString = "/";
             fullpath = EditorUtility.OpenFilePanel("Select a FMU to be visualized.", "", "fmu");
             string[] pathLst = fullpath.Split(new string[] { delimiterString }, StringSplitOptions.None);
-            for (int i = 0; i < (pathLst.Length - 1); i++)
+            for (int i=0; i < (pathLst.Length-1); i++)
             {
                 pathName = pathName + pathLst[i] + delimiterString;
             }
-            fileName = pathLst[pathLst.Length - 1];
+            fileName = pathLst[pathLst.Length-1];
             Debug.Log("Selected fileName " + fileName);
             Debug.Log("Selected pathName " + pathName);
         }
-
         if (fullpath != null)
         {
             GUILayout.Label("Selected File: " + fullpath);
@@ -299,7 +265,6 @@ public class FMUToolWindow : EditorWindow
             }
             simulatorGO = new GameObject("FMU_Simulator");
             FMU_Simulation fmusim = simulatorGO.AddComponent<FMU_Simulation>();
-
             fmusim.fmuPath = fullpath;
             fmusim.fmuDir = pathName;
             fmusim.goIDs = new List<string>();
@@ -312,12 +277,14 @@ public class FMUToolWindow : EditorWindow
             //init all shapes
             initShapes();
         }
+		/*
         if (GUILayout.Button("Generate Interfaces"))
         {
             GameObject simulatorGO = GameObject.Find("FMU_Simulator");
             FMU_Simulation fmusim = simulatorGO.GetComponent<FMU_Simulation>();
             fmusim.GetInitialVariables();
         }
+		*/
     }
 }
 
